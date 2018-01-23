@@ -229,7 +229,7 @@ class Manager(object):
                 Manager.run(settings)
             except Exception as ex:
                 Manager.logger.error('Exception: {0}'.format(str(ex)))
-            time.sleep(5 * 60)
+            time.sleep(30 * 60)
 
 
 if __name__ == '__main__':
