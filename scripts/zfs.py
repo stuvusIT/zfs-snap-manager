@@ -39,14 +39,15 @@ class ZFS(object):
         """
 
         if endpoint == '':
-            command = 'sudo zfs list -H -s creation -t snapshot{0}{1} || true'
+            command = 'sudo zfs list -H -s creation -t snapshot{0}{1}{2} || true'
         else:
-            command = '{0} \'sudo zfs list -H -s creation -t snapshot{1} || true\''
+            command = '{0} \'sudo zfs list -H -s creation -t snapshot{1}{2} || true\''
         if dataset == '':
             dataset_filter = ''
         else:
             dataset_filter = ' | grep {0}@'.format(dataset)
-        output = Helper.run_command(command.format(endpoint, dataset_filter), '/')
+        date_filter = ' | grep -E "^.*\@[0-9]{4}[0-1][0-9][0-3][0-9]\s"'
+        output = Helper.run_command(command.format(endpoint, dataset_filter, date_filter), '/')
         snapshots = {}
         for line in filter(len, output.split('\n')):
             parts = filter(len, line.split('\t'))
